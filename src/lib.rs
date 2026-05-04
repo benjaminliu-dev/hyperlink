@@ -1,10 +1,10 @@
- pub mod hlcp;
 pub mod communication;
+pub mod hlcp;
 #[cfg(test)]
 mod tests {
+    use crate::communication::{Transport, send_packet};
+    use crate::hlcp::{Flags, PacketType, Packet};
     use std::error::Error;
-    use crate::communication::{send_packet, Transport};
-    use crate::hlcp::{Flags, PACKET_TYPE, Packet};
     struct TestTransportSend {}
     impl Transport for TestTransportSend {
         fn open_line(&mut self) -> Result<(), Box<dyn Error>> {
@@ -22,14 +22,33 @@ mod tests {
     }
     #[test]
     fn test_hlcp_packet() {
-        let pckt: Packet = Packet::new(PACKET_TYPE::TELEMETRY, Flags::empty() | Flags::ACK_REQUIRED | Flags::ENCRYPTED, "Hello world", 0).unwrap();
-        println!("{:X}, {:X}, {:08b}, {:X}", pckt.sync, pckt.packet_type, pckt.flags, pckt.crc);
+        let pckt: Packet = Packet::new(
+            PacketType::TELEMETRY,
+            Flags::empty() | Flags::ACK_REQUIRED | Flags::ENCRYPTED,
+            "Hello world",
+            0,
+        )
+        .unwrap();
+        println!(
+            "{:X}, {:X}, {:08b}, {:X}",
+            pckt.sync, pckt.packet_type, pckt.flags, pckt.crc
+        );
     }
-    
+
     #[test]
     fn test_send_packet() {
         let mut transport: TestTransportSend = TestTransportSend {};
         let flags: Flags = Flags::empty();
-        send_packet(Packet::new(PACKET_TYPE::TELEMETRY, flags | Flags::ENCRYPTED, "Ben da ben", 1).unwrap(), &mut transport).unwrap();
+        send_packet(
+            Packet::new(
+                PacketType::TELEMETRY,
+                flags | Flags::ENCRYPTED,
+                "Ben da ben",
+                1,
+            )
+            .unwrap(),
+            &mut transport,
+        )
+        .unwrap();
     }
 }

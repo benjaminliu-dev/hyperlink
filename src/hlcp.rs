@@ -1,10 +1,10 @@
-use std::error::Error;
 use bitflags::bitflags;
 use crc::{CRC_16_MODBUS, Crc};
+use std::error::Error;
 
 pub const SYNC_TAG: u16 = 0xA5;
 
-pub enum PACKET_TYPE {
+pub enum PacketType {
     ACK,       // 0x1
     TELEMETRY, // 0x2
     CMD,       // 0x3
@@ -25,13 +25,13 @@ pub struct Packet {
     pub packet_type: u8,
     pub flags: Flags,
     pub sequence: u16,
-    pub payload: Vec<u8>,
     pub crc: u16,
+    pub payload: Vec<u8>,
 }
 
 impl Packet {
     pub fn new(
-        ptype: PACKET_TYPE,
+        ptype: PacketType,
         msg_flags: Flags,
         msg_payload_str: &'static str,
         seq: u16,
@@ -45,10 +45,10 @@ impl Packet {
         Ok(Packet {
             sync: SYNC_TAG,
             packet_type: match ptype {
-                PACKET_TYPE::ACK => 0x1,
-                PACKET_TYPE::TELEMETRY => 0x2,
-                PACKET_TYPE::CMD => 0x3,
-                PACKET_TYPE::DBG => 0x4,
+                PacketType::ACK => 0x1,
+                PacketType::TELEMETRY => 0x2,
+                PacketType::CMD => 0x3,
+                PacketType::DBG => 0x4,
             },
             flags: msg_flags,
             sequence: seq,
@@ -57,5 +57,3 @@ impl Packet {
         })
     }
 }
-
-

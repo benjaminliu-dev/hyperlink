@@ -25,7 +25,7 @@ pub fn send_packet(packet: Packet, transport: &mut dyn Transport) -> Result<(), 
     for byte in packet.crc.to_le_bytes() {
         transport.send_byte(byte)?;
     }
-    
+
     for byte in &packet.payload {
         transport.send_byte(*byte)?;
     }
