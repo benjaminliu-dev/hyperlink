@@ -6,7 +6,7 @@ pub trait Transport {
     fn open_line(&mut self) -> Result<(), Box<dyn Error>>;
     fn close_line(&mut self) -> Result<(), Box<dyn Error>>;
     fn send_byte(&mut self, data: u8) -> Result<(), Box<dyn Error>>;
-    fn recieve_byte(&mut self, buf: &mut [u8]) -> Result<usize, Box<dyn Error>>;
+    // fn recieve_byte(&mut self, buf: &mut [u8]) -> Result<usize, Box<dyn Error>>;
 }
 pub fn send_packet(packet: Packet, transport: &mut dyn Transport) -> Result<(), Box<dyn Error>> {
     // Send data byte by byte
@@ -33,4 +33,4 @@ pub fn send_packet(packet: Packet, transport: &mut dyn Transport) -> Result<(), 
     Ok(())
 }
 
-pub struct communication {}
+pub struct Connection {}
