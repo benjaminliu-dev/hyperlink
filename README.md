@@ -15,3 +15,7 @@ Parts:
 
 Notes:
 - CRC checksums are CRC 16 MODBUS
+
+
+Changelog:
+- v0.1.0: Basic implementation; synchronous. 
