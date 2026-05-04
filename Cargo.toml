@@ -2,7 +2,11 @@
 name = "hyperlink"
 version = "0.1.0"
 edition = "2024"
-
+license = "MIT"
+description = "A 2-way synchronous communications library for aerospace & robotics"
+homepage = "none"
+repository = "https://github.com/benjaminliu-dev/hyperlink"
+readme = "README.md"
 [dependencies]
 crc = "3"
 bitflags = "2"
